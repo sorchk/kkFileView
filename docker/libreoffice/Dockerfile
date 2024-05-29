@@ -1,11 +1,11 @@
 FROM ubuntu:20.04
-MAINTAINER "sorc@qq.com"
 ENV TZ="Asia/Shanghai"
+# 内置一些常用的中文字体，避免普遍性乱码
+COPY fonts/* /usr/share/fonts/chinese/
 RUN --mount=type=cache,target=/temp/docker_tmp apt-get clean && \
-    sed -i 's#ports.ubuntu.com#mirrors.tuna.tsinghua.edu.cn#' /etc/apt/sources.list
+    sed -i 's#ports.ubuntu.com#mirrors.tuna.tsinghua.edu.cn#' /etc/apt/sources.list && \
     apt-get update && \
 	apt-get install -y --reinstall ca-certificates && \
-	apt-get clean && apt-get update && \
 	apt-get install -y locales language-pack-zh-hans && \
 	localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8 && locale-gen zh_CN.UTF-8 && \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -70,8 +70,11 @@ RUN make && make install
 RUN ln -s /usr/local/lib/libreoffice/program/soffice /usr/bin/libreoffice
 
 # 清理临时文件
-RUN rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+RUN rm -rf /tmp/* && rm -rf /var/lib/apt/lists/* && \
+cd /usr/share/fonts/chinese &&\
+mkfontscale &&\
+mkfontdir &&\
+fc-cache -fv
 ENV LANG zh_CN.UTF-8
-ENV LC_ALL zh_CN.UTF-8
 ENV LC_ALL zh_CN.UTF-8
 CMD ["/bin/bash"]

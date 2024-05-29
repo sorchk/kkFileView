@@ -1,9 +1,9 @@
 #!/bin/bash
-name=libreoffice-jdk8
+name=libreoffice
 ver=$1
 build_date=`date +"%Y%m%d"`
 if [ -z "${ver}" ] ;then
-  ver=0.7.5
+  ver=7.5-jdk8
 fi
 echo ${ver}_${build_date}
 
@@ -12,8 +12,8 @@ docker buildx build \
   --platform linux/arm64 \
   --build-arg VER=${ver} \
   --build-arg BUILD_DATE=${build_date} \
-  --build-arg HTTP_PROXY=http://10.10.10.41:1083 \
-  --build-arg HTTPS_PROXY=http://10.10.10.41:1083 \
+  --build-arg HTTP_PROXY=http://172.168.1.237:1083 \
+  --build-arg HTTPS_PROXY=http://172.168.1.237:1083 \
   --push \
   --tag sorc/${name}:${ver}_${build_date} \
   --tag sorc/${name}:${ver} \

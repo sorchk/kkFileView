@@ -63,7 +63,7 @@ RUN su libreoffice
     # 在普通用户下编译
 RUN make || true
     # !!!编译40分钟左右会报错，此时需要执行以下操作重新编译
-RUN cp ./workdir/UnpackedTarball/python3/build/lib.linux-$(arch)-3.8/_sysconfigdata__linux_$(arch)-linux-gnu.py ./workdir/UnpackedTarball/python3/build/lib.linux-$(arch)-3.8/_sysconfigdata__linux_$(arch)-unknown-linux-gnu.py
+RUN cp ./workdir/UnpackedTarball/python3/build/lib.linux-$(arch)-3.8/_sysconfigdata__linux_$(arch)-linux-gnu.py ./workdir/UnpackedTarball/python3/build/lib.linux-$(arch)-3.8/_sysconfigdata__linux_$(arch)-unknown-linux-gnu.py || true
     # 重新编译
 RUN make && make install
 

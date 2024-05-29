@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 ENV TZ="Asia/Shanghai"
 # 内置一些常用的中文字体，避免普遍性乱码
 COPY fonts/* /usr/share/fonts/chinese/
-RUN --mount=type=cache,target=/temp/docker_tmp apt-get clean && \
+RUN apt-get clean && \
     sed -i 's#ports.ubuntu.com#mirrors.tuna.tsinghua.edu.cn#' /etc/apt/sources.list && \
     apt-get update && \
 	apt-get install -y --reinstall ca-certificates && \
@@ -13,9 +13,9 @@ RUN --mount=type=cache,target=/temp/docker_tmp apt-get clean && \
 	apt-get install -y fontconfig ttf-mscorefonts-installer ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy && \
 	apt-get install -y wget
 # 安装 jdk8
-RUN --mount=type=cache,target=/temp/docker_tmp  apt-get install -y openjdk-8-jdk
+RUN  apt-get install -y openjdk-8-jdk
 # 编译 libreoffice
-RUN --mount=type=cache,target=/temp/docker_tmp apt-get install -y git build-essential zip ccache \
+RUN apt-get install -y git build-essential zip ccache \
     junit4 libkrb5-dev nasm graphviz python3 python3-dev qtbase5-dev libkf5coreaddons-dev \
     libkf5i18n-dev libkf5config-dev libkf5windowsystem-dev libkf5kio-dev autoconf \
     libcups2-dev libfontconfig1-dev gperf default-jdk doxygen libxslt1-dev xsltproc libxml2-utils \
@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/temp/docker_tmp apt-get install -y git build-esse
     # clone主代码
     mkdir /opt/libreoffice
 WORKDIR /opt/libreoffice
-RUN --mount=type=cache,target=/temp/docker_tmp git clone --depth=1 --branch libreoffice-7-5 https://github.com/LibreOffice/core.git ./libreoffice-7-5
+RUN git clone --depth=1 --branch libreoffice-7-5 https://github.com/LibreOffice/core.git ./libreoffice-7-5
     # 配置&抓取子模块
 WORKDIR /opt/libreoffice/libreoffice-7-5
 RUN git submodule init && \

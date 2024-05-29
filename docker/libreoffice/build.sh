@@ -9,7 +9,7 @@ echo ${ver}_${build_date}
 
 echo ${DOCKER_HUB_KEY} | docker login --username ${docker_user}  --password-stdin
 docker buildx build \
-  --platform linux/arm64 \
+  --platform linux/arm64,linux/amd64 \
   --build-arg VER=${ver} \
   --build-arg BUILD_DATE=${build_date} \
   --build-arg HTTP_PROXY=http://172.168.1.237:1083 \

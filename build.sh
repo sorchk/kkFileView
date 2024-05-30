@@ -7,9 +7,10 @@ if [ -z "${ver}" ] ;then
 fi
 echo ${ver}_${build_date}
 
-echo ${DOCKER_HUB_KEY} | docker login --username ${docker_user}  --password-stdin
+docker login --username ${docker_user}  --password-stdin
 docker buildx build \
-  --platform linux/arm64 \
+  -f Dockerfile \
+  --platform linux/arm64,linux/amd64 \
   --build-arg VER=${ver} \
   --build-arg BUILD_DATE=${build_date} \
   --push \

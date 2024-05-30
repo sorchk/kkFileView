@@ -1,6 +1,13 @@
 
 docker run --rm -it \
--e "TZ=Asia/Shanghai" \
 --name kkfileview \
---platform arm64 \
+-p 8012:8012 \
+-e "TZ=Asia/Shanghai" \
+sorc/kkfileview:latest
+
+
+docker run -d \
+--name kkfileview \
+-p 8012:8012 \
+-e "TZ=Asia/Shanghai" \
 sorc/kkfileview:latest
